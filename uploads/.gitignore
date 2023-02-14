@@ -1,0 +1,15 @@
+# exclude everything in this dir
+colors/*
+designs/*
+item_configs/*
+item_images/*
+item_sizing/*
+mock_up_images/*
+
+# except the first level folders
+!colors/.gitkeep
+!designs/.gitkeep 
+!item_configs/.gitkeep 
+!item_images/.gitkeep 
+!item_sizing/.gitkeep 
+!mock_up_images/.gitkeep 

@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Items API create a new item 1`] = `
+Object {
+  "data": Object {
+    "createItem": Object {
+      "average_score": null,
+      "created_at": 1585603874526,
+      "id": "5e8265229582021e2a1b36e6",
+      "item_categories": Array [
+        "Men",
+        "Women",
+        "Kids",
+        "Home",
+      ],
+      "item_colors": Array [
+        "blue",
+        "royalblue",
+        "white_n_green",
+        "forestgreen",
+      ],
+      "item_country": null,
+      "item_description": "A cotton tshirt for men",
+      "item_material": null,
+      "item_name": "Men Premium T-shirt",
+      "item_regular_price": 9.99,
+      "item_sizes": Array [
+        "Free Size",
+        "S",
+        "M",
+        "L",
+        "1XL",
+        "2XL",
+        "3XL",
+        "4XL",
+        "5XL",
+        "3-6Months",
+        "6-9Months",
+        "9-12Months",
+        "2T",
+        "3T",
+        "4T",
+        "5T",
+        "6T",
+        "7T",
+        "8T",
+      ],
+      "item_special_price": 9.99,
+      "item_vendor": null,
+      "sku_prefix": "mpt",
+      "total_reviews": null,
+      "updated_at": 1585603874526,
+    },
+  },
+  "errors": undefined,
+  "extensions": undefined,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
