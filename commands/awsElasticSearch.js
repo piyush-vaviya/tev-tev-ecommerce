@@ -25,7 +25,9 @@ const MONGO_CONNECTION_CONFIG = {
 
 program
   .command('reindex-products')
-  .description('Delete current index and create a new index for existing products at database.')
+  .description(
+    'Delete current index and create a new index for existing products at database.'
+  )
   .action(async () => {
     logger.info('Reindex AWS Elastic search start...')
 
@@ -45,37 +47,42 @@ program
     const perBatch = 100
 
     try {
-      await async.whilst(async () => hasNexPage, async () => {
-        const products = await Product.find({}).skip((page - 1) * perBatch).limit(perBatch)
+      await async.whilst(
+        async () => hasNexPage,
+        async () => {
+          const products = await Product.find({})
+            .skip((page - 1) * perBatch)
+            .limit(perBatch)
 
-        if (products.length > 0) {
-          const documentsArray = products.map(p => {
-            const { _id, created_at, updated_at, ...rest } = p.toObject()
-            return [
-              p.id,
-              {
-                ...rest,
-                id: _id,
-                created_at: created_at.getTime(),
-                updated_at: updated_at.getTime(),
-              },
-            ]
-          })
+          if (products.length > 0) {
+            const documentsArray = products.map((p) => {
+              const { _id, created_at, updated_at, ...rest } = p.toObject()
+              return [
+                p.id,
+                {
+                  ...rest,
+                  id: _id,
+                  created_at: created_at.getTime(),
+                  updated_at: updated_at.getTime(),
+                },
+              ]
+            })
 
-          logger.debug(documentsArray)
+            logger.debug(documentsArray)
 
-          const response = await aws.ES.bulkIndex({
-            indexName: APP_CONSTANTS.ELASTICSEARCH.PRODUCTS_INDEX,
-            documentsArray: documentsArray,
-          })
+            const response = await aws.ES.bulkIndex({
+              indexName: APP_CONSTANTS.ELASTICSEARCH.PRODUCTS_INDEX,
+              documentsArray: documentsArray,
+            })
 
-          logger.debug({ Response: response })
+            logger.debug({ Response: response })
+          }
+
+          page++
+
+          hasNexPage = products.length > 0
         }
-
-        page++
-
-        hasNexPage = products.length > 0
-      })
+      )
     } catch (err) {
       logger.error(err)
     }
@@ -87,7 +94,9 @@ program
 
 program
   .command('reindex-items')
-  .description('Delete current index and create a new index for existing items at database.')
+  .description(
+    'Delete current index and create a new index for existing items at database.'
+  )
   .action(async () => {
     logger.info('Reindex AWS Elastic search start...')
 
@@ -107,37 +116,42 @@ program
     const perBatch = 100
 
     try {
-      await async.whilst(async () => hasNexPage, async () => {
-        const items = await Item.find().skip((page - 1) * perBatch).limit(perBatch)
+      await async.whilst(
+        async () => hasNexPage,
+        async () => {
+          const items = await Item.find()
+            .skip((page - 1) * perBatch)
+            .limit(perBatch)
 
-        if (items.length > 0) {
-          const documentsArray = items.map(i => {
-            const { _id, created_at, updated_at, ...rest } = i.toObject()
-            return [
-              i.id,
-              {
-                ...rest,
-                id: _id,
-                created_at: created_at.getTime(),
-                updated_at: updated_at.getTime(),
-              },
-            ]
-          })
+          if (items.length > 0) {
+            const documentsArray = items.map((i) => {
+              const { _id, created_at, updated_at, ...rest } = i.toObject()
+              return [
+                i.id,
+                {
+                  ...rest,
+                  id: _id,
+                  created_at: created_at.getTime(),
+                  updated_at: updated_at.getTime(),
+                },
+              ]
+            })
 
-          logger.debug(documentsArray)
+            logger.debug(documentsArray)
 
-          const response = await aws.ES.bulkIndex({
-            indexName: APP_CONSTANTS.ELASTICSEARCH.ITEMS_INDEX,
-            documentsArray: documentsArray,
-          })
+            const response = await aws.ES.bulkIndex({
+              indexName: APP_CONSTANTS.ELASTICSEARCH.ITEMS_INDEX,
+              documentsArray: documentsArray,
+            })
 
-          logger.debug({ Response: response })
+            logger.debug({ Response: response })
+          }
+
+          page++
+
+          hasNexPage = items.length > 0
         }
-
-        page++
-
-        hasNexPage = items.length > 0
-      })
+      )
     } catch (err) {
       logger.error(err)
     }
@@ -149,7 +163,9 @@ program
 
 program
   .command('reindex-designs')
-  .description('Delete current index and create a new index for existing designs at database.')
+  .description(
+    'Delete current index and create a new index for existing designs at database.'
+  )
   .action(async () => {
     logger.info('Reindex AWS Elastic search start...')
 
@@ -169,37 +185,42 @@ program
     const perBatch = 100
 
     try {
-      await async.whilst(async () => hasNexPage, async () => {
-        const designs = await Design.find().skip((page - 1) * perBatch).limit(perBatch)
+      await async.whilst(
+        async () => hasNexPage,
+        async () => {
+          const designs = await Design.find()
+            .skip((page - 1) * perBatch)
+            .limit(perBatch)
 
-        if (designs.length > 0) {
-          const documentsArray = designs.map(i => {
-            const { _id, created_at, updated_at, ...rest } = i.toObject()
-            return [
-              i.id,
-              {
-                ...rest,
-                id: _id,
-                created_at: created_at.getTime(),
-                updated_at: updated_at.getTime(),
-              },
-            ]
-          })
+          if (designs.length > 0) {
+            const documentsArray = designs.map((i) => {
+              const { _id, created_at, updated_at, ...rest } = i.toObject()
+              return [
+                i.id,
+                {
+                  ...rest,
+                  id: _id,
+                  created_at: created_at.getTime(),
+                  updated_at: updated_at.getTime(),
+                },
+              ]
+            })
 
-          logger.debug(documentsArray)
+            logger.debug(documentsArray)
 
-          const response = await aws.ES.bulkIndex({
-            indexName: APP_CONSTANTS.ELASTICSEARCH.DESIGNS_INDEX,
-            documentsArray: documentsArray,
-          })
+            const response = await aws.ES.bulkIndex({
+              indexName: APP_CONSTANTS.ELASTICSEARCH.DESIGNS_INDEX,
+              documentsArray: documentsArray,
+            })
 
-          logger.debug({ Response: response })
+            logger.debug({ Response: response })
+          }
+
+          page++
+
+          hasNexPage = designs.length > 0
         }
-
-        page++
-
-        hasNexPage = designs.length > 0
-      })
+      )
     } catch (err) {
       logger.error(err)
     }

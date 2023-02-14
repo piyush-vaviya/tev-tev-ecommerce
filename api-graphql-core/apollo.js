@@ -3,6 +3,7 @@ const merge = require('lodash/merge')
 /**
  * Load the typedefs
  */
+
 const typeDefs = [
   ...Object.values(require('../graphql/typeDefs/root')),
   ...Object.values(require('../graphql/typeDefs/core/auth')),

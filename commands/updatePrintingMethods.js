@@ -18,7 +18,7 @@ const MONGO_CONNECTION_CONFIG = {
   opts: MONGO_CONFIG.MONGOOSE_OPTS,
 }
 
-async function main () {
+async function main() {
   logger.info('Start...')
 
   const database = require('../mongo')
@@ -31,33 +31,42 @@ async function main () {
   const perBatch = 500
 
   try {
-    await async.whilst(async () => hasNexPage, async () => {
-      // Query sellable product that are not yet in ES
-      const products = await Product.find()
-        .populate('item')
-        .populate('design')
-        .skip((page - 1) * perBatch)
-        .limit(perBatch)
-        .sort({ _id: -1 })
+    await async.whilst(
+      async () => hasNexPage,
+      async () => {
+        // Query sellable product that are not yet in ES
+        const products = await Product.find()
+          .populate('item')
+          .populate('design')
+          .skip((page - 1) * perBatch)
+          .limit(perBatch)
+          .sort({ _id: -1 })
 
-      logger.info(`Processing ${products.length} products...`)
+        logger.info(`Processing ${products.length} products...`)
 
-      await async.eachOfSeries(products, async (p) => {
-        const allowedPrintingMethods = _.intersection(p.item.printing_methods, p.design.printing_methods)
-        p.allowed_printing_methods = allowedPrintingMethods
-        p.printing_method = allowedPrintingMethods.includes('digital') ? 'digital' : allowedPrintingMethods.pop()
-        await p.save()
-      })
+        await async.eachOfSeries(products, async (p) => {
+          const allowedPrintingMethods = _.intersection(
+            p.item.printing_methods,
+            p.design.printing_methods
+          )
+          p.allowed_printing_methods = allowedPrintingMethods
+          p.printing_method = allowedPrintingMethods.includes('digital')
+            ? 'digital'
+            : allowedPrintingMethods.pop()
+          await p.save()
+        })
 
-      page++
+        page++
 
-      hasNexPage = products.length > 0
-    }, (err) => {
-      if (err) throw err
+        hasNexPage = products.length > 0
+      },
+      (err) => {
+        if (err) throw err
 
-      logger.info('End...')
-      process.exit(0)
-    })
+        logger.info('End...')
+        process.exit(0)
+      }
+    )
   } catch (err) {
     logger.error(err)
   }
