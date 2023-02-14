@@ -14,6 +14,7 @@ module.exports = async (uri, { query, variables = {} }) => {
   //   context,
   //   extensions,
   // }))
+  console.log('uri >>>', uri)
 
   return request(uri, query, variables)
 }

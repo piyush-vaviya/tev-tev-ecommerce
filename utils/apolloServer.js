@@ -5,7 +5,7 @@ module.exports.requestDidStart = () => {
   /* Within this returned object, define functions that respond
            to request-specific lifecycle events. */
   return {
-    didEncounterErrors (ctx) {
+    didEncounterErrors(ctx) {
       // If we couldn't parse the operation, don't
       // do anything here
       if (!ctx.operation) {
@@ -18,7 +18,7 @@ module.exports.requestDidStart = () => {
           continue
         }
         // Add scoped report details and send to Sentry
-        Sentry.withScope(scope => {
+        Sentry.withScope((scope) => {
           // Annotate whether failing operation was query/mutation/subscription
           scope.setTag('kind', ctx.operation.operation)
           // Log query and variables as extras
